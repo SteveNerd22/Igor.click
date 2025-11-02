@@ -62,6 +62,8 @@ function fartAnimationRelease() {
   }, 500); // 500ms di ritardo
 }
 
+img.addEventListener('contextmenu', e => e.preventDefault());
+
 // Eventi per desktop
 img.addEventListener('mousedown', fartAnimationPress);
 img.addEventListener('mouseup', fartAnimationRelease);
