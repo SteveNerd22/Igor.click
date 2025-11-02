@@ -34,6 +34,7 @@ body {
   height: 100%;
   object-fit: cover;
   display: block;
+  overflow: visible;
 
   /* impedisce il drag dell'immagine */
   user-drag: none;       /* per WebKit (Safari, Chrome) */
