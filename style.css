@@ -18,6 +18,11 @@ body {
   width: 50%;
   height: 80%;
   overflow: visible;
+
+  user-drag: none;         /* WebKit */
+  -webkit-user-drag: none; /* Safari/Chrome */
+  user-select: none;        /* previene selezione testo/elementi */
+  pointer-events: auto;
 }
 
 .avatar-wrap img {
