@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Immagine circolare rotante</title>
+  <style>
+    html,body{height:100%;margin:0}
+    body{
+      background:#ffffff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .avatar-wrap{
+      width:220px;
+      height:220px;
+      border-radius:50%;
+      overflow:hidden;
+      box-shadow:0 8px 24px rgba(0,0,0,0.12);
+      border:6px solid rgba(0,0,0,0.06);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .avatar-wrap img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    @media (max-width:420px){
+      .avatar-wrap{width:160px;height:160px}
+    }
+  </style>
+</head>
+<body>
+  <div class="avatar-wrap">
+    <img src="https://placekitten.com/800/800" alt="Immagine rotante">
+  </div>
+
+  <script>
+    const img = document.querySelector('.avatar-wrap img');
+    let angle = 0;
+    let running = true;
+    const speed = 0.3; // gradi per frame
+
+    function rotate() {
+      if (running) {
+        angle = (angle + speed) % 360;
+        img.style.transform = `rotate(${angle}deg)`;
+      }
+      requestAnimationFrame(rotate);
+    }
+
+    // click per mettere in pausa / riprendere
+    img.addEventListener('click', ()=> running = !running);
+
+    rotate();
+  </script>
+</body>
+</html>
