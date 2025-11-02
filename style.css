@@ -10,12 +10,14 @@ body {
   align-items: center;
   justify-content: center;
   position: relative;
+  overflow: hidden
 }
 
 .avatar-wrap {
   position: relative;
   width: 50%;
   height: 80%;
+  overflow: visible;
 }
 
 .avatar-wrap img {
@@ -27,5 +29,4 @@ body {
   height: 100%;
   object-fit: cover;
   display: block;
-  overflow: visible;
 }
