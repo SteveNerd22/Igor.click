@@ -1,19 +1,30 @@
 const img = document.querySelector('.avatar-wrap img');
-let initialAngle = 0
+let initialAngle = 0;
 let angle = initialAngle;
 let spinning = true;
 const speed = 0.3; // gradi per frame
-const fartAudio = new Audio('fart.wav');
 
+// 🔹 Precarica le immagini e il suono
+const fartImg = new Image();
+fartImg.src = "fart_-_orizzontale.png";
+
+const originalImgSrc = img.src;
+
+// 🔹 Precarica e mantiene l’audio in memoria
+const fartAudio = new Audio("fart.wav");
+fartAudio.preload = "auto"; // forza il caricamento immediato
+fartAudio.load();
+
+// 🔹 Animazione rotazione
 function rotate() {
   if (spinning) {
     angle = (angle + speed) % 360;
-    // combina il translate già presente con la rotazione
     img.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
   }
   requestAnimationFrame(rotate);
 }
 
+// 🔹 Effetto tremolio
 function tremoloAnimation(duration = 100) {
   const tremolo = [10, -10, 5, -5, 0];
   let i = 0;
@@ -25,11 +36,11 @@ function tremoloAnimation(duration = 100) {
 
     if (delta >= duration) {
       img.style.transform = `translate(-50%, -50%) rotate(${angle + tremolo[i]}deg)`;
-      i = (i + 1) % tremolo.length; // ciclico
+      i = (i + 1) % tremolo.length;
       lastTime = timestamp;
     }
 
-    if (spinning === false) {
+    if (!spinning) {
       requestAnimationFrame(step);
     }
   }
@@ -37,39 +48,34 @@ function tremoloAnimation(duration = 100) {
   requestAnimationFrame(step);
 }
 
-// Animazione press/hold
+// 🔹 Animazione press
 function fartAnimationPress() {
-  if (spinning) { // evita che parta più volte
+  if (spinning) {
     spinning = false;
-    const originalSrc = img.src;
-    img.src = "fart_-_orizzontale.png";
+    img.src = fartImg.src; // già in memoria
     fartAudio.currentTime = 0;
     fartAudio.play();
-
     tremoloAnimation();
-
-    img._pressOriginalSrc = originalSrc; // salva per release
   }
 }
 
+// 🔹 Animazione release
 function fartAnimationRelease() {
   setTimeout(() => {
-    spinning = true; // ferma il tremolio continuo
-    if (img._pressOriginalSrc) {
-      img.src = img._pressOriginalSrc;
-      delete img._pressOriginalSrc;
-    }
-  }, 500); // 500ms di ritardo
+    spinning = true;
+    img.src = originalImgSrc;
+  }, 500);
 }
 
+// 🔹 Disabilita interazioni sull’immagine
 img.addEventListener('contextmenu', e => e.preventDefault());
 
-// Eventi per desktop
+// 🔹 Eventi desktop
 img.addEventListener('mousedown', fartAnimationPress);
 img.addEventListener('mouseup', fartAnimationRelease);
 img.addEventListener('mouseleave', fartAnimationRelease);
 
-// Eventi per mobile
+// 🔹 Eventi mobile
 img.addEventListener('touchstart', fartAnimationPress);
 img.addEventListener('touchend', fartAnimationRelease);
 img.addEventListener('touchcancel', fartAnimationRelease);
