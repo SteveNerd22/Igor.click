@@ -29,4 +29,10 @@ body {
   height: 100%;
   object-fit: cover;
   display: block;
+
+  /* impedisce il drag dell'immagine */
+  user-drag: none;       /* per WebKit (Safari, Chrome) */
+  -webkit-user-drag: none;
+  pointer-events: auto;  /* mantiene gli eventi click */
+  user-select: none;     /* opzionale: impedisce selezione */
 }
