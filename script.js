@@ -7,6 +7,8 @@ const speed = 0.3; // gradi per frame
 // 🔹 Precarica le immagini e il suono
 const fartImg = new Image();
 fartImg.src = "fart_-_orizzontale.png";
+const barkImg = new Image();
+barkImg.src = "bark_-_orizzontale.png";
 
 const originalImgSrc = img.src;
 
@@ -14,6 +16,9 @@ const originalImgSrc = img.src;
 const fartAudio = new Audio("fart.wav");
 fartAudio.preload = "auto"; // forza il caricamento immediato
 fartAudio.load();
+const barkAudio = new Audio("bark.wav");
+barkAudio.preload = "auto"; // forza il caricamento immediato
+barkAudio.load();
 
 // 🔹 Animazione rotazione
 function rotate() {
@@ -59,8 +64,28 @@ function fartAnimationPress() {
   }
 }
 
+// 🔹 Animazione press
+function barkAnimationPress() {
+  if (spinning) {
+    spinning = false;
+    img.src = barkImg.src; // già in memoria
+    barkAudio.currentTime = 0;
+    barkAudio.play();
+    tremoloAnimation();
+  }
+}
+
+function AnimationPress() {
+  let n = Math.floor(Math.random() * 2);
+  if(n === 0) {
+    fartAnimationPress()
+  } else {
+    barkAnimationPress()
+  }
+}
+
 // 🔹 Animazione release
-function fartAnimationRelease() {
+function AnimationRelease() {
   setTimeout(() => {
     spinning = true;
     img.src = originalImgSrc;
@@ -71,13 +96,13 @@ function fartAnimationRelease() {
 img.addEventListener('contextmenu', e => e.preventDefault());
 
 // 🔹 Eventi desktop
-img.addEventListener('mousedown', fartAnimationPress);
-img.addEventListener('mouseup', fartAnimationRelease);
-img.addEventListener('mouseleave', fartAnimationRelease);
+img.addEventListener('mousedown', AnimationPress);
+img.addEventListener('mouseup', AnimationRelease);
+img.addEventListener('mouseleave', AnimationRelease);
 
 // 🔹 Eventi mobile
-img.addEventListener('touchstart', fartAnimationPress);
-img.addEventListener('touchend', fartAnimationRelease);
-img.addEventListener('touchcancel', fartAnimationRelease);
+img.addEventListener('touchstart', AnimationPress);
+img.addEventListener('touchend', AnimationRelease);
+img.addEventListener('touchcancel', AnimationRelease);
 
 rotate();
