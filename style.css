@@ -30,7 +30,7 @@ body {
   position: relative;
   width: 50%;
   height: 80%;
-  overflow: visible;
+  overflow: visible !important;
 
   user-drag: none;         /* WebKit */
   -webkit-user-drag: none; /* Safari/Chrome */
@@ -47,7 +47,7 @@ body {
   height: 100%;
   object-fit: cover;
   display: block;
-  overflow: visible;
+  overflow: visible !important;
 
   /* impedisce il drag dell'immagine */
   user-drag: none;       /* per WebKit (Safari, Chrome) */
