@@ -29,7 +29,7 @@ body {
 .avatar-wrap {
   position: relative;
   width: 50%;
-  height: 65%;
+  height: 45%;
   overflow: visible !important;
 
   user-drag: none;         /* WebKit */
