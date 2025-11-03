@@ -1,6 +1,8 @@
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
+  padding: 0;
 }
 
 body {
@@ -10,34 +12,31 @@ body {
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden
+  overflow: hidden;
 }
 
-.avatar-wrap img, .avatar-wrap {
-  /* blocca il drag */
-  user-drag: none;
-  -webkit-user-drag: none;
-
-  /* blocca la selezione */
+/* Compatibilità estesa per bloccare drag e selezione */
+.avatar-wrap,
+.avatar-wrap img {
+  -webkit-user-drag: none;    /* Safari, Chrome */
+  -khtml-user-drag: none;     /* vecchi Konqueror */
+  -moz-user-select: none;     /* Firefox */
+  -webkit-user-select: none;  /* Safari, Chrome, Opera */
+  -ms-user-select: none;      /* Internet Explorer/Edge Legacy */
   user-select: none;
-  -webkit-user-select: none;
 
-  /* blocca eventi pointer di default se vuoi solo che JS gestisca */
-  pointer-events: auto; /* lascialo su auto se vuoi che click/touch ancora funzionino */
+  pointer-events: auto;       /* mantiene interazioni JS */
 }
 
+/* Contenitore */
 .avatar-wrap {
   position: relative;
   width: 50%;
-  height: 45%;
+  height: 80%;
   overflow: visible !important;
-
-  user-drag: none;         /* WebKit */
-  -webkit-user-drag: none; /* Safari/Chrome */
-  user-select: none;        /* previene selezione testo/elementi */
-  pointer-events: auto;
 }
 
+/* Immagine centrata */
 .avatar-wrap img {
   position: absolute;
   top: 50%;
@@ -48,10 +47,12 @@ body {
   object-fit: cover;
   display: block;
   overflow: visible !important;
+}
 
-  /* impedisce il drag dell'immagine */
-  user-drag: none;       /* per WebKit (Safari, Chrome) */
-  -webkit-user-drag: none;
-  pointer-events: auto;  /* mantiene gli eventi click */
-  user-select: none;     /* opzionale: impedisce selezione */
+/* Prevenzione touch extra (opzionale ma utile su iOS) */
+body,
+.avatar-wrap,
+.avatar-wrap img {
+  touch-action: none;              /* previene gesture come pinch/zoom o doppio tap */
+  -ms-touch-action: none;          /* Edge legacy */
 }
