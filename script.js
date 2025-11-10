@@ -34,7 +34,7 @@ function rotate() {
   if (spinning) {
     angle = (angle + speed) % 360;
     img.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
-    fartElement.style.transform = `translate(-20%, -20%) rotate(${angle}deg)`;
+    fartElement.style.transform = `rotate(${angle}deg)`;
   }
   requestAnimationFrame(rotate);
 }
