@@ -19,12 +19,22 @@ fartAudio.load();
 const barkAudio = new Audio("bark.wav");
 barkAudio.preload = "auto"; // forza il caricamento immediato
 barkAudio.load();
+const fartElement = document.getElementById('fartElement');
+const fartAnimation = lottie.loadAnimation({
+  container: fartElement, // the dom element that will contain the animation
+  renderer: 'svg',
+  loop: false,
+  autoplay: false,
+  path: 'orizzontale.json' // the path to the animation json
+});
+
 
 // 🔹 Animazione rotazione
 function rotate() {
   if (spinning) {
     angle = (angle + speed) % 360;
     img.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+    fartElement.style.transform = `translate(-20%, -20%) rotate(${angle}deg)`;
   }
   requestAnimationFrame(rotate);
 }
@@ -55,13 +65,15 @@ function tremoloAnimation(duration = 100) {
 
 // 🔹 Animazione press
 function fartAnimationPress() {
-  if (spinning) {
-    spinning = false;
-    img.src = fartImg.src; // già in memoria
-    fartAudio.currentTime = 0;
-    fartAudio.play();
-    tremoloAnimation();
-  }
+    fartElement.style.display = 'block';
+    if (spinning) {
+        spinning = false;
+        img.src = fartImg.src; // già in memoria
+        fartAudio.currentTime = 0;
+        fartAudio.play();
+        fartAnimation.goToAndPlay(0)
+        tremoloAnimation();
+    }
 }
 
 // 🔹 Animazione press
@@ -91,6 +103,25 @@ function AnimationRelease() {
     img.src = originalImgSrc;
   }, 500);
 }
+
+function unlockAudio() {
+  fartAudio.play().then(() => {
+    fartAudio.pause();
+    fartAudio.currentTime = 0;
+  }).catch(() => {});
+
+  barkAudio.play().then(() => {
+    barkAudio.pause();
+    barkAudio.currentTime = 0;
+  }).catch(() => {});
+
+  // Rimuovi l’evento dopo la prima interazione
+  document.removeEventListener('mousedown', unlockAudio);
+  document.removeEventListener('touchstart', unlockAudio);
+}
+
+document.addEventListener('mousedown', unlockAudio);
+document.addEventListener('touchstart', unlockAudio);
 
 // 🔹 Disabilita interazioni sull’immagine
 img.addEventListener('contextmenu', e => e.preventDefault());
