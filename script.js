@@ -34,7 +34,15 @@ function rotate() {
   if (spinning) {
     angle = (angle + speed) % 360;
     img.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
-    fartElement.style.transform = `rotate(${angle}deg)`;
+    const ratio = window.innerWidth / window.innerHeight;
+    const target = 16 / 9;
+
+    // rapporto rispetto al target (1 = perfetto 16:9)
+    let scale = ratio / target;
+
+    // se il ratio è più piccolo di 16:9 => scale deve aumentare
+    if (ratio < target) scale = target / ratio;
+    fartElement.style.transform = `scale(${scale}) rotate(${angle}deg)`;
   }
   requestAnimationFrame(rotate);
 }
